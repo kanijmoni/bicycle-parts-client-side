@@ -9,7 +9,7 @@ const Purchase = () => {
     const [user] = useAuthState(auth);
 
     useEffect(() => {
-        const url = `http://localhost:5000/singleParts/${singlePartsId}`;
+        const url = `https://polar-shelf-14291.herokuapp.com/singleParts/:singleParts${singlePartsId}`;
         console.log(url);
         fetch(url)
             .then(res => res.json())
