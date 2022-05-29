@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import auth from '../../firebase.init';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import Looding from './Looding';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
 const Login = () => {
@@ -16,9 +16,15 @@ const Login = () => {
         error1,
     ] = useSignInWithEmailAndPassword(auth);
 
-    if (user) {
-        console.log(user);
-    }
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
+    useEffect(() => {
+        if (user || user1) {
+            navigate(from, { replace: true });
+        }
+    }, [user, user1, from, navigate])
 
     if (loading || loading1) {
         <Looding></Looding>
