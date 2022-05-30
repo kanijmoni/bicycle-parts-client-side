@@ -4,6 +4,7 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
 import Looding from './Looding';
 
 const Register = () => {
@@ -18,6 +19,8 @@ const Register = () => {
 
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
+    const [token] = useToken(user || user1);
+
     const navigate = useNavigate();
 
     let signInError;
@@ -28,7 +31,7 @@ const Register = () => {
 
 
     if (user || user1) {
-        
+        navigate('/home');
     }
 
     if (loading || loading1 || updating) {
@@ -39,7 +42,7 @@ const Register = () => {
         console.log(data);
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({ displayName: data.name })
-        navigate('/purchase');
+
     }
 
 
@@ -49,27 +52,27 @@ const Register = () => {
                 <div className="card-body">
                     <h2 className="text-center text-2xl font-bold">Register</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Name</span>
-                            </label>
-                            <input type="text" placeholder="Your Name" class="input input-bordered w-full max-w-xs"
-                                {...register("name", {
-                                    required: {
-                                        value: true,
-                                        massage: 'Name is required'
-                                    }
-                                })} />
-                            <label class="label">
-                                {errors.name?.type === 'required' && <span class="label-text-alt text-red-500" >{errors.name.massage}</span>}
-                            </label>
-                        </div>
+                        <div className="form-control w-full max-w-xs">
+                        <label class="label">
+                        <span class="label-text">Name</span>
+                </label>
+                <input type="text" placeholder="Your Name" className="input input-bordered w-full max-w-xs"
+                    {...register("name", {
+                        required: {
+                            value: true,
+                            massage: 'Name is required'
+                        }
+                    })} />
+                <label className="label">
+                {errors.name?.type === 'required' && <span className="label-text-alt text-red-500" >{errors.name.massage}</span>}
+        </label>
+                        </div >
 
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Email</span>
-                            </label>
-                            <input type="email" placeholder="Your Email" class="input input-bordered w-full max-w-xs"
+    <div className="form-control w-full max-w-xs" >
+        <label className="label" >
+            <span className="label-text" > Email</span >
+                            </label >
+                            <input type="email" placeholder="Your Email"className="input input-bordered w-full max-w-xs"
                                 {...register("email", {
                                     required: {
                                         value: true,
@@ -80,18 +83,18 @@ const Register = () => {
                                         message: 'Provide a valid Email'
                                     }
                                 })} />
-                            <label class="label">
-                                {errors.email?.type === 'required' && <span class="label-text-alt text-red-500" >{errors.email.massage}</span>}
-                                {errors.email?.type === 'pattern' && <span class="label-text-alt text-red-500" >{errors.email.massage}</span>}
+                            <label className="label" >
+    { errors.email?.type === 'required' && <span className="label-text-alt text-red-500" > { errors.email.massage }</span>}
+{ errors.email?.type === 'pattern' && <span className="label-text-alt text-red-500" > { errors.email.massage }</span >}
 
-                            </label>
-                        </div>
+                            </label >
+                        </div >
 
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Password</span>
-                            </label>
-                            <input type="password" placeholder="Password" class="input input-bordered w-full max-w-xs"
+    <div className="form-control w-full max-w-xs" >
+        <label className="label" >
+            <span className="label-text" > Password</span >
+                            </label >
+                            <input type="password" placeholder="Password"className="input input-bordered w-full max-w-xs"
                                 {...register("password", {
                                     required: {
                                         value: true,
@@ -102,22 +105,22 @@ const Register = () => {
                                         message: 'Must be 6 characters or longer'
                                     }
                                 })} />
-                            <label class="label">
-                                {errors.password?.type === 'required' && <span class="label-text-alt text-red-500" >{errors.password.massage}</span>}
-                                {errors.password?.type === 'minLength' && <span class="label-text-alt text-red-500" >{errors.password.massage}</span>}
+                            <label className="label" >
+    { errors.password?.type === 'required' && <span className="label-text-alt text-red-500" > { errors.password.massage }</span>}
+{ errors.password?.type === 'minLength' && <span class="label-text-alt text-red-500" >{errors.password.massage}</span> }
 
-                            </label>
-                        </div>
-                        {signInError}
-                        <input className='btn w-full max-w-xs' type="submit" value='Register' />
-                    </form>
-                    <p>Already have an account?<Link to='/login' className='text-info'>Please Login</Link></p>
-                    {/* <p>Forget Password? <button className='btn btn-link text-primary pe-auto text-decoration-none' onClick={resetPassword}>Reset Password</button></p> */}
+                            </label >
+                        </div >
+    { signInError }
+    < input className = 'btn w-full max-w-xs' type = "submit" value = 'Register' />
+                    </form >
+    <p>Already have an account?<Link to='/login' className='text-info'>Please Login</Link></p>
+{/* <p>Forget Password? <button className='btn btn-link text-primary pe-auto text-decoration-none' onClick={resetPassword}>Reset Password</button></p> */ }
                     <div className="divider">OR</div>
                     <button onClick={() => signInWithGoogle()} className="btn btn-accent">Continue With Google</button>
-                </div>
-            </div>
-        </div>
+                </div >
+            </div >
+        </div >
     );
 };
 

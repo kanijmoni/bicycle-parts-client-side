@@ -3,8 +3,8 @@ import React from 'react';
 const Looding = () => {
     return (
         <div className='h-screen flex justify-center items-center'>
-            <button class="btn loading">loading</button>
-        </div>
+            <button className="btn loading">loading</button>
+        </div >
     );
 };
 
