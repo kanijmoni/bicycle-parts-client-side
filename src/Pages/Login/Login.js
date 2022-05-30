@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Looding from './Looding';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import axios from 'axios';
 
 const Login = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
@@ -31,8 +32,8 @@ const Login = () => {
     }
 
     const onSubmit = data => {
-        console.log(data);
         signInWithEmailAndPassword(data.email, data.password);
+
     }
 
 

@@ -1,12 +1,20 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import auth from '../../firebase.init';
 
 const Purchase = () => {
     const { singlePartsId } = useParams();
     const [singleParts, setSingleParts] = useState({});
+    const { register } = useForm();
     const [user] = useAuthState(auth);
+    if (user) {
+        console.log(user)
+    }
 
     useEffect(() => {
         const url = `http://localhost:5000/singleParts/${singlePartsId}`;
@@ -16,19 +24,28 @@ const Purchase = () => {
             .then(data => setSingleParts(data));
     }, [singlePartsId]);
 
-    // const handlePlaceOrder = event => {
-    //     event.preventDefault();
-    //     const order = {
-    //         email: user.email,
-    //         product: singleParts.name,
-    //         productId: singlePartsId,
-    //         address: event.target.address?.value,
-    //         phone: event.target.phone?.value
-    //     }
+    const handlePlaceOrder = event => {
+        event.preventDefault();
+        const order = {
+            email: user.email,
+            singleParts: singleParts.name,
+            singlePartsId: singlePartsId,
+            address: event.target.address?.value,
+            phone: event.target.phone?.value
+        }
+        axios.post('http://localhost:5000/order', order)
+            .then(response => {
+                const { data } = response;
+                if (data.insertedId) {
+                    toast('Your order is booked!!!');
+                    event.target.reset();
+                }
+            })
+    }
 
     return (
         <div>
-            <div className='flex my-20 mx-10 justify-center'>
+            <div className='flex my-10 mx-10 justify-center'>
                 <div>
                     <img className='max-w-xs max-h-72 mx-5' src={singleParts.img} alt='' />
                 </div>
@@ -44,22 +61,23 @@ const Purchase = () => {
                     </div>
                 </div>
             </div>
-            {/* <div>
-                    <h3 className='text-primary text-center mt-5'>Please Order:{singleParts.name}</h3>
-                    <form onSubmit={handlePlaceOrder}>
-                        <input className='w-full my-3' type="text" value={user?.displayName} name='name' placeholder='name' required readOnly disabled />
-                        <br />
-                        <input className='w-full my-2' type="email" value={user?.email} name='email' placeholder='Email' required readOnly disabled />
-                        <br />
-                        <input className='w-full mb-3' type="text" value={singleParts.name} name='product' placeholder='Product Name' required readOnly disabled />
-                        <br />
-                        <input className='w-full mb-3' type="text" name='address' placeholder='Address' autoComplete='off' required />
-                        <br />
-                        <input className='w-full mb-3' type="text" name='phone' placeholder='phone' autoComplete='off' required />
-                        <br />
-                        <input className='btn btn-primary' type='submit' value="Submit" />
-                    </form>
-                </div> */}
+            <div>
+                <h3 className='w-96 mx-auto'>Please Order:{singleParts.name}</h3>
+                <form onSubmit={handlePlaceOrder} className='w-96 mx-auto' >
+                    <input className='w-96 mx-auto my-2' type="text" value={user?.displayName} name='name' placeholder='name' required readOnly disabled />
+                    <br />
+                    <input className='w-96 mx-auto my-2' type="email" value={user?.email} name='email' placeholder='Email' required readOnly disabled />
+                    <br />
+                    <input className='w-96 mx-auto my-2' type="text" value={singleParts.name} name='product' placeholder='Product Name' required readOnly disabled />
+                    <input className='w-96 mx-auto my-2' type="number" name='order quantity' placeholder='Quantity' {...register("quantity", { min: 0, max: 990000 })} required />
+                    <br />
+                    <input className='w-96 mx-auto my-2' type="text" name='address' placeholder='Address' autoComplete='off' required />
+                    <br />
+                    <input className='w-96 mx-auto my-2' type="text" name='phone' placeholder='phone' autoComplete='off' required />
+                    <br />
+                    <input className='btn btn-primary' type='submit' value="Submit" />
+                </form>
+            </div>
         </div >
     );
 };
