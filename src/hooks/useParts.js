@@ -4,7 +4,7 @@ const useParts = () => {
     const [parts, setParts] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/singleParts')
+        fetch('https://polar-shelf-14291.herokuapp.com/singleParts')
             .then(res => res.json())
             .then(data => setParts(data));
     }, []);

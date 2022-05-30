@@ -5,7 +5,7 @@ const AddAProduct = () => {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         console.log(data);
-        const url = `http://localhost:5000/singleParts`;
+        const url = `https://polar-shelf-14291.herokuapp.com/singleParts`;
         fetch(url, {
             method: 'POST',
             headers: {

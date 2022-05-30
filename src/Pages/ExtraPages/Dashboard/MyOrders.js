@@ -12,7 +12,7 @@ const MyOrders = () => {
 
         const getOrders = async () => {
             const email = user.email;
-            const url = `http://localhost:5000/order?email=${email}`;
+            const url = `https://polar-shelf-14291.herokuapp.com/order?email=${email}`;
             const { data } = await axios.get(url);
             setOrders(data);
         }
@@ -22,7 +22,7 @@ const MyOrders = () => {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure?');
         if (proceed) {
-            const url = `http://localhost:5000/order/${id}`;
+            const url = `https://polar-shelf-14291.herokuapp.com/order/${id}`;
             fetch(url, {
                 method: 'DELETE'
             })

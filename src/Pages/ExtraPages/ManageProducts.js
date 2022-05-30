@@ -7,7 +7,7 @@ const ManageProducts = () => {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure?');
         if (proceed) {
-            const url = `http://localhost:5000/singleParts/${id}`;
+            const url = `https://polar-shelf-14291.herokuapp.com/singleParts/${id}`;
             fetch(url, {
                 method: 'DELETE'
             })

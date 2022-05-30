@@ -17,7 +17,7 @@ const Purchase = () => {
     }
 
     useEffect(() => {
-        const url = `http://localhost:5000/singleParts/${singlePartsId}`;
+        const url = `https://polar-shelf-14291.herokuapp.com/singleParts/${singlePartsId}`;
         console.log(url);
         fetch(url)
             .then(res => res.json())
@@ -33,7 +33,7 @@ const Purchase = () => {
             address: event.target.address?.value,
             phone: event.target.phone?.value
         }
-        axios.post('http://localhost:5000/order', order)
+        axios.post('https://polar-shelf-14291.herokuapp.com/order', order)
             .then(response => {
                 const { data } = response;
                 if (data.insertedId) {
