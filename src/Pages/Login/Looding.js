@@ -2,8 +2,8 @@ import React from 'react';
 
 const Looding = () => {
     return (
-        <div>
-            <button class="btn loading">loading</button>  
+        <div className='justify-center'>
+            <button class="btn loading">loading</button>
         </div>
     );
 };

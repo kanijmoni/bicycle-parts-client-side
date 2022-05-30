@@ -13,10 +13,14 @@ const Navbar = () => {
 
     const menuItems = <>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/myOrders">My Orders</Link></li>
-        <li><Link to="/addReview">Add a review</Link></li>
         <li><Link to="/myProfile">My Profile</Link></li>
         <li><Link to="/manageAllOrders">Manage All Orders</Link></li>
+        {
+            user && <>
+                <li><Link to="/myOrders">My Orders</Link></li>
+                <li><Link to="/addReview">Add a review</Link></li>
+            </>
+        }
         <li><Link to="/addProduct">Add a Product</Link></li>
         <li><Link to="/makeAdmin">Make Admin</Link></li>
         <li><Link to="/manageProducts">Manage Products</Link></li>
