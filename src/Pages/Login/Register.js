@@ -1,4 +1,4 @@
-import { updateProfile } from 'firebase/auth';
+
 import React from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
@@ -27,8 +27,8 @@ const Register = () => {
     }
 
 
-    if (user) {
-        console.log(user);
+    if (user || user1) {
+        
     }
 
     if (loading || loading1 || updating) {
@@ -108,7 +108,7 @@ const Register = () => {
 
                             </label>
                         </div>
-
+                        {signInError}
                         <input className='btn w-full max-w-xs' type="submit" value='Register' />
                     </form>
                     <p>Already have an account?<Link to='/login' className='text-info'>Please Login</Link></p>

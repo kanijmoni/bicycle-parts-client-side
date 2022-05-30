@@ -4,13 +4,14 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import About from './Pages/ExtraPages/About';
 import AddAProduct from './Pages/ExtraPages/AddAProduct';
-import AddAReview from './Pages/ExtraPages/AddAReview';
+import AddAReview from './Pages/ExtraPages/Dashboard/AddAReview';
 import Blogs from './Pages/ExtraPages/Blogs';
+import Dashboard from './Pages/ExtraPages/Dashboard/Dashboard';
 import MakeAdmin from './Pages/ExtraPages/MakeAdmin';
 import ManageProducts from './Pages/ExtraPages/ManageProducts';
 import ManAllOrders from './Pages/ExtraPages/ManAllOrders';
-import MyOrders from './Pages/ExtraPages/MyOrders';
-import MyProfile from './Pages/ExtraPages/MyProfile';
+import MyOrders from './Pages/ExtraPages/Dashboard/MyOrders';
+import MyProfile from './Pages/ExtraPages/Dashboard/MyProfile';
 import NotFound from './Pages/ExtraPages/NotFound';
 import Purchase from './Pages/HiddenPages/Purchase';
 import Home from './Pages/Home/Home';
@@ -32,14 +33,15 @@ function App() {
             <Purchase></Purchase>
           </RequireAuth>}>
         </Route>
-        <Route path='/myOrders' element={<RequireAuth>
-          <MyOrders></MyOrders>
-        </RequireAuth>}></Route>
-        <Route path='/addReview' element={<RequireAuth>
-          <AddAReview></AddAReview>
-        </RequireAuth>}></Route>
-        <Route path='/myProfile' element={
-          <MyProfile></MyProfile>}></Route>
+        <Route path='/dashboard' element={<RequireAuth>
+          <Dashboard></Dashboard>
+        </RequireAuth>}>
+          <Route index element={<MyOrders></MyOrders>}></Route>
+          <Route path='addReview' element={AddAReview}></Route>
+          <Route path='myProfile' element={
+            <MyProfile></MyProfile>}></Route>
+        </Route>
+
         <Route path='/addProduct' element={<RequireAuth>
           <AddAProduct></AddAProduct>
         </RequireAuth>}></Route>

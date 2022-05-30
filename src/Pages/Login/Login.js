@@ -3,9 +3,9 @@ import auth from '../../firebase.init';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import Looding from './Looding';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import axios from 'axios';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+
 
 const Login = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
@@ -17,19 +17,27 @@ const Login = () => {
         error1,
     ] = useSignInWithEmailAndPassword(auth);
 
+
+    let signInError;
+
+
     const navigate = useNavigate();
     const location = useLocation();
     let from = location.state?.from?.pathname || "/";
+
+    if (loading || loading1) {
+        <Looding></Looding>
+    }
+
+    if (error || error1) {
+        signInError = <p className='text-red-500'><small>{error?.massage || error1?.massage}</small></p>
+    }
 
     useEffect(() => {
         if (user || user1) {
             navigate(from, { replace: true });
         }
     }, [user, user1, from, navigate])
-
-    if (loading || loading1) {
-        <Looding></Looding>
-    }
 
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.password);
@@ -89,6 +97,7 @@ const Login = () => {
                             </label>
                         </div>
 
+                        {signInError}
                         <input className='btn w-full max-w-xs' type="submit" value='Login' />
                     </form>
                     <p>New to Bicycle Parts? <Link to='/register' className='text-info'>Please Register</Link></p>
